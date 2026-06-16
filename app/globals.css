@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* Class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Dark theme (default) ── */
+:root,
+html.dark {
+  --bg:        #09090b;
+  --surface:   #111111;
+  --surface-2: #1a1a1a;
+  --edge:      #27272a;
+  --text:      #fafafa;
+  --text-2:    #a1a1aa;
+  --text-dim:  #52525b;
+  color-scheme: dark;
+}
+
+/* ── Light theme ── */
+html.light {
+  --bg:        #f1f5f9;
+  --surface:   #ffffff;
+  --surface-2: #f8fafc;
+  --edge:      #e2e8f0;
+  --text:      #0f172a;
+  --text-2:    #475569;
+  --text-dim:  #94a3b8;
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Light mode: override hardcoded dark Tailwind classes ── */
+
+/* Backgrounds */
+html.light .bg-zinc-950,
+html.light .bg-zinc-950\/60 {
+  background-color: var(--surface) !important;
+}
+html.light .bg-zinc-900,
+html.light .bg-zinc-900\/60 {
+  background-color: var(--surface-2) !important;
+}
+html.light .bg-zinc-800,
+html.light .bg-zinc-800\/50 {
+  background-color: var(--edge) !important;
+}
+
+/* Borders */
+html.light .border-zinc-800,
+html.light .border-zinc-800\/80,
+html.light .border-zinc-800\/60,
+html.light .border-zinc-800\/40 {
+  border-color: var(--edge) !important;
+}
+html.light .border-zinc-700 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Text */
+html.light .text-zinc-100 { color: var(--text) !important; }
+html.light .text-zinc-200 { color: #1e293b !important; }
+html.light .text-zinc-300 { color: var(--text-2) !important; }
+html.light .text-zinc-400 { color: var(--text-2) !important; }
+html.light .text-zinc-500 { color: var(--text-dim) !important; }
+html.light .text-zinc-600 { color: #94a3b8 !important; }
+html.light .text-zinc-700 { color: #b0bec5 !important; }
+
+/* Hover states */
+html.light .hover\:text-zinc-300:hover { color: var(--text-2) !important; }
+html.light .hover\:text-zinc-200:hover { color: var(--text) !important; }
+html.light .hover\:border-zinc-600:hover { border-color: #94a3b8 !important; }
+html.light .hover\:border-zinc-500:hover { border-color: #64748b !important; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top    { padding-top:    env(safe-area-inset-top);    }
+
+/* ── Light mode: specific component fixes ── */
+
+/* TaskModal + TaskItem backgrounds */
+html.light .task-modal-bg { background-color: var(--surface) !important; }
+
+/* Chat input area */
+html.light textarea,
+html.light input[type="text"],
+html.light select {
+  background-color: var(--surface-2);
+  border-color: var(--edge);
+  color: var(--text);
+}
+
+/* Badge adjustments for light mode */
+html.light .badge-urgent  { background-color: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
+html.light .badge-high    { background-color: #ffedd5; color: #c2410c; border-color: #fdba74; }
+html.light .badge-medium  { background-color: #fef9c3; color: #a16207; border-color: #fde047; }
+html.light .badge-critical { background-color: #fee2e2; color: #991b1b; border-color: #ef4444; }
+
+/* DragOverlay in light mode */
+html.light [data-dnd-kit-drag-overlay] {
+  background-color: var(--surface) !important;
+  border-color: var(--edge) !important;
+  color: var(--text) !important;
+}
+
+/* Color scheme for date inputs */
+html.light input[type="date"] { color-scheme: light; }
+
+/* New task flash animation */
+@keyframes task-new-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.5); background-color: rgba(139, 92, 246, 0.12); }
+  40%  { box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); background-color: rgba(139, 92, 246, 0.08); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); background-color: transparent; }
+}
+.task-new-flash {
+  animation: task-new-flash 2.5s ease-out forwards;
+}

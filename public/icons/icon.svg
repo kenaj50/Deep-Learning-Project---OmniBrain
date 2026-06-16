@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="96" fill="#09090b"/>
+  <rect width="512" height="512" rx="96" fill="url(#grad)"/>
+  <!-- Brain icon (simplified) -->
+  <g transform="translate(256,256)">
+    <!-- Left hemisphere -->
+    <path d="M-80,-60 C-120,-80 -140,-40 -120,0 C-140,10 -130,50 -100,60 C-80,70 -60,50 -40,40 L-40,-40 C-60,-50 -70,-55 -80,-60 Z"
+          fill="#6366f1" opacity="0.9"/>
+    <!-- Right hemisphere -->
+    <path d="M80,-60 C120,-80 140,-40 120,0 C140,10 130,50 100,60 C80,70 60,50 40,40 L40,-40 C60,-50 70,-55 80,-60 Z"
+          fill="#6366f1" opacity="0.9"/>
+    <!-- Center connector -->
+    <rect x="-6" y="-30" width="12" height="60" rx="6" fill="#818cf8"/>
+    <!-- Neural dots -->
+    <circle cx="-70" cy="-20" r="8" fill="#a5b4fc"/>
+    <circle cx="70" cy="-20" r="8" fill="#a5b4fc"/>
+    <circle cx="-90" cy="20" r="6" fill="#c7d2fe"/>
+    <circle cx="90" cy="20" r="6" fill="#c7d2fe"/>
+    <circle cx="-50" cy="40" r="7" fill="#a5b4fc"/>
+    <circle cx="50" cy="40" r="7" fill="#a5b4fc"/>
+  </g>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+  </defs>
+</svg>
