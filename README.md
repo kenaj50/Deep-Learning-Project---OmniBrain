@@ -69,4 +69,4 @@ Architektura sieci: `Input(6) → FC(64) → ReLU → Dropout(0.2) → FC(32) �
 
 ## Autor
 
-Jan Kolwicz — projekt zaliczeniowy, przedmiot: Deep Learning
+Jan Kolwicz
