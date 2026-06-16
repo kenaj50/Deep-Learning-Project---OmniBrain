@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OmniBrain — DeepScheduler
 
-## Getting Started
+Osobisty asystent zarządzania zadaniami z modułem Deep Learning do predykcji czasu i lokalnym LLM do przetwarzania notatek.
 
-First, run the development server:
+## Problem
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Prowadzenie kilku obszarów działalności jednocześnie generuje dziesiątki nieustrukturyzowanych notatek dziennie. Brakuje narzędzia, które przetworzy chaos na konkretne zadania i pomoże zaplanować dzień z uwzględnieniem aktualnej kondycji organizmu.
+
+## Rozwiązanie
+
+Aplikacja webowa (PWA) integrująca dwa moduły Deep Learning:
+
+**1. Lokalny LLM (Ollama + Llama 3.2)**
+Przetwarza surowe notatki głosowe i tekstowe na ustrukturyzowane zadania w JSON — tytuł, priorytet, termin, kategoria, subtaski. Działa lokalnie, zero danych na zewnątrz.
+
+**2. Sieć neuronowa PyTorch — DeepScheduler**
+MLP (Multi-Layer Perceptron) trenowany na danych biometrycznych: godziny snu, poziom energii, pora dnia, typ zadania. Przewiduje realny czas wykonania zadania i wyświetla szacunek bezpośrednio w interfejsie.
+
+## Architektura
+
+```
+Next.js (UI) ←→ Supabase PostgreSQL
+     ↓
+/api/predict → FastAPI (Python) → model.pt (PyTorch MLP)
+/api/chat    → Anthropic API / Ollama (lokalny LLM)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Warstwa | Technologia |
+|---------|-------------|
+| Frontend | Next.js 16, React 19, Tailwind CSS |
+| Baza danych | Supabase (PostgreSQL + Realtime) |
+| AI / LLM | Anthropic API, Ollama (lokalny) |
+| Model DL | PyTorch MLP, FastAPI mikroserwis |
+| Deployment | Vercel |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Uruchomienie
 
-## Learn More
+```bash
+# Zależności JS
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Uruchom aplikację
+npx next dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Mikroserwis ML (osobny terminal)
+cd ml/api
+uvicorn main:app --port 8000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Wymagany plik `.env.local` z kluczami Supabase i Anthropic (patrz `.env.local.example`).
 
-## Deploy on Vercel
+## Moduł ML — szczegóły
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+/ml
+  /data
+    generate_dataset.py   — generuje 5000 syntetycznych rekordów
+    dataset.csv           — dane treningowe
+  /model
+    train.py              — trening MLP (PyTorch), MAE ~11 min
+    model.pt              — wytrenowane wagi sieci
+  /api
+    main.py               — FastAPI /predict endpoint
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Architektura sieci: `Input(6) → FC(64) → ReLU → Dropout(0.2) → FC(32) → ReLU → FC(1)`
+
+## Autor
+
+Jan Kolwicz — projekt zaliczeniowy, przedmiot: Deep Learning
