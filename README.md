@@ -1,4 +1,4 @@
-# OmniBrain — DeepScheduler
+# OmniBrain - DeepScheduler
 
 Osobisty asystent zarządzania zadaniami z modułem Deep Learning do predykcji czasu i lokalnym LLM do przetwarzania notatek.
 
